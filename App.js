@@ -1,7 +1,8 @@
 /* eslint-disable linebreak-style */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Header, Text } from 'react-native-elements'
+import * as SendIntentAndroid from 'react-native-send-intent'
+import { Header, Text, Button } from 'react-native-elements'
 
 import PickerGroup from './components/PickerGroup'
 
@@ -15,6 +16,17 @@ export default class App extends React.Component {
 
   handleNewResult = newResult => {
     this.setState({ result: newResult })
+  }
+
+  onDoTheMagic = () => {
+    console.log(SendIntentAndroid)
+    SendIntentAndroid.openChooserWithOptions(
+      {
+        subject: 'Story Title',
+        text: 'Message Body'
+      },
+      'Share Story'
+    )
   }
 
   render() {
@@ -31,9 +43,12 @@ export default class App extends React.Component {
         <PickerGroup showResult={newResult => this.handleNewResult(newResult)} />
         <Text>Resultado: {this.state.result.join('')}</Text>
         <View style={styles.footer}>
-          <View>
-            <Text>My fixed footer</Text>
-          </View>
+          <Button
+            onPress={this.onDoTheMagic}
+            large
+            icon={{ name: 'magic', type: 'font-awesome' }}
+            title="DO THE MAGIC"
+          />
         </View>
       </View>
     )
@@ -47,7 +62,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: '100%',
-    height: 50,
+    height: 80,
     backgroundColor: '#FF9800',
     justifyContent: 'center',
     alignItems: 'center',
